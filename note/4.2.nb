@@ -1,57 +1,104 @@
-
 Restricted pattern
-In[1]:= Replace[
+Filter and replace
+In[5]:= FullForm[func_[a_,___]/;EvenQ[a]]
+Out[5]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]]
+In[8]:= FullForm[func_[a_,b_,___]/;Mod[a,2]==Mod[b,2]]
+Out[8]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],Pattern[b,Blank[]],BlankNullSequence[]],Equal[Mod[a,2],Mod[b,2]]]
+In[194]:= FullForm[func_[a_?EvenQ,___]]
+Out[194]//FullForm= Pattern[func,Blank[]][PatternTest[Pattern[a,Blank[]],EvenQ],BlankNullSequence[]]
+In[204]:= expr={ Sin[1],Cos[2],f[3],foo[4],5,f,g[]};
+In[210]:= Cases[expr, func_[a_,___]/;EvenQ[a]:> {"matched",func},1]
+Out[210]= {{matched,Cos},{matched,foo}}
+In[209]:= Cases[expr, func_[a_,___]:> {"matched",func}/;EvenQ[a],1]
+Out[209]= {{matched,Cos},{matched,foo}}
+In[212]:= t1=Trace[Cases[expr,func_[a_,___]:> {"matched",func}/;EvenQ[a]]]
+Out[212]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]:>{matched,func}/;EvenQ[a],func_[a_,___]:>{matched,func}/;EvenQ[a]},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]:>{matched,func}/;EvenQ[a]],{{EvenQ[1],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,Sin}]],False],Fail},{{EvenQ[2],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,Cos}]],True],$ConditionHold[$ConditionHold[{matched,Cos}]]},{{EvenQ[3],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,f}]],False],Fail},{{EvenQ[4],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,foo}]],True],$ConditionHold[$ConditionHold[{matched,foo}]]},{{matched,Cos},{matched,foo}}}
+In[213]:= t2=Trace[Cases[expr,func_[a_,___]/;EvenQ[a]:> {"matched",func}]]
+Out[213]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]/;EvenQ[a]:>{matched,func},func_[a_,___]/;EvenQ[a]:>{matched,func}},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]/;EvenQ[a]:>{matched,func}],{EvenQ[1],False},{EvenQ[2],True},{EvenQ[3],False},{EvenQ[4],True},{{matched,Cos},{matched,foo}}}
+Filter and replace using Replace
+In[200]:= Replace[
 {
-Sin[1],
-Cos[2],
-f[3],
-foo[4,5]
+    Sin[1],
+    Cos[2],
+    f[3],
+    foo[4,5],
+f,
+g[]
 },
-func_[a_,___]/;EvenQ[a]:> {"matched",func,a},
-1
+ func_[a_,___]/;EvenQ[a]:> {"matched",func,a},
+   (* func_[a_,___]/;EvenQ[a]:> {"matched",func,a},*)
+    1
+]//Trace
+Out[200]= {{func_[a_,___]/;EvenQ[a]:>{matched,func,a},func_[a_,___]/;EvenQ[a]:>{matched,func,a}},Replace[{Sin[1],Cos[2],f[3],foo[4,5],f,g[]},func_[a_,___]/;EvenQ[a]:>{matched,func,a},1],{EvenQ[1],False},{EvenQ[2],True},{EvenQ[3],False},{EvenQ[4],True},{Sin[1],{matched,Cos,2},f[3],{matched,foo,4},f,g[]}}
+(*** Use RuleDelayed when RHS mentions symbols used in LHS **)
+a=3;
+(*Remove[a]*)
+Replace[
+{
+    Sin[1],
+    Cos[2],
+    f[3],
+    foo[4,5],
+f,
+g[]
+},
+ func_[a_?EvenQ,___]-> {"matched",func,a},
+  (* func_[a_,___]/;EvenQ[a]:> {"matched",func,a},*)
+   1
 ]
-Out[1]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4}}
-In[4]:= FullForm[func_[a_,___]/;EvenQ[a]:> {"matched",func,a}]
-Out[4]//FullForm= RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
+Out[39]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4},f,g[]}
+
+RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
 The following actually does not have ideal structure, and is arguably wrong sementatically:
-In[2]:= Replace[
+
+In[179]:= Replace[
 {
-Sin[1],
-Cos[2],
-f[3],
-foo[4,5]
+    Sin[1],
+    Cos[2],
+   f[3],
+   foo[4,5]
 },
-func_[a_,___]:> {"matched",func,a}/;EvenQ[a],
+   func_[a_,___]:> {"matched",func,a}/;EvenQ[a],
 1
 ]
-Out[2]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4}}
-In[3]:= FullForm[func_[a_,___]:> {"matched",func,a}/;EvenQ[a]]
-Out[3]//FullForm= RuleDelayed[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],Condition[List["matched",func,a],EvenQ[a]]]
-Rule and RuleDelayed are left-associative
-In[8]:= {f[x],g[x,y]}/.f_[x_]:>f[x]/.x-> 2
-Out[8]= {f[2],g[2,y]}
+
+Out[179]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4}}
+In[177]:= f1=FullForm[func_[a_,___]/;EvenQ[a]:> {"matched",func,a}]
+Out[177]//FullForm= RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
+In[176]:= f2=FullForm[func_[a_,___]:> {"matched",func,a}/;EvenQ[a]]
+Out[176]//FullForm= RuleDelayed[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],Condition[List["matched",func,a],EvenQ[a]]]
+In[178]:= f1===f2
+Out[178]= False
 Filter-and-replace
-In[18]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List-> (f[x]/.x-> 2)
-Out[18]= {f[2],g[x,y],h[2]}
-In[19]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>(f[x]/.x-> 2)
-Out[19]= {f[2],g[x,y],h[2]}
-In[3]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>  (f[x]/.x-> 2)//Trace
-Out[3]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
-In[4]:= tr=%;
+In[182]:=
+{f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List-> (f[x]/.x-> 2)
+{f[2],g[x,y],h[2]}
+{f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>(f[x]/.x-> 2)
+{f[2],g[x,y],h[2]}
+{f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>  (f[x]/.x-> 2)//Trace
+{{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
+tr=%;
+Out[182]= {f[2],g[x,y],h[2]}
+Out[183]= {f[2],g[x,y],h[2]}
+Out[184]= {f[2],g[x,y],h[2]}
+Out[185]= {f[2],g[x,y],h[2]}
+Out[186]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
+Out[187]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[2],g[x,y],h[2]},{True,True},{True,True},{f[2],g[x,y],h[2]},{{x->2,x->2},f[2],f[2]},{{z->2,z->2},h[2],h[2]},{f[2],g[x,y],h[2]}}
 Use TableForm[] to read Trace[]'s result in a more readable form
-In[7]:= tr//TableForm
-Out[7]//TableForm= f_[x_]/;f=!=List:>(f[x]/. x->2)	f_[x_]/;f=!=List:>(f[x]/. x->2)	
-{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2)		
-f=!=List	True	
-h=!=List	True	
-{f[x]/. x->2,g[x,y],h[z]/. z->2}		
+
+In[189]:= tr//TableForm
+Out[189]//TableForm= f_[x_]/;f=!=List:>(f[x]/. x->2)	f_[x_]/;f=!=List:>(f[x]/. x->2)	
+f[2]	g[x,y]	h[2]
+True	True	
+True	True	
+f[2]	g[x,y]	h[2]
 x->2
 x->2
 
-	f[x]/. x->2	f[2]
+	f[2]	f[2]
 z->2
 z->2
 
-	h[z]/. z->2	h[2]
-{f[2],g[x,y],h[2]}		
+	h[2]	h[2]
+f[2]	g[x,y]	h[2]
 

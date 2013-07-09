@@ -1,0 +1,361 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MatchQ on Alternatives", "Title"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"s", "=", 
+   RowBox[{"FO", "[", 
+    RowBox[{"\"\<foo\>\"", ",", 
+     RowBox[{"\"\<bar1\>\"", "|", "\"\<bar2\>\""}], ",", 
+     RowBox[{"Opt", "[", "\"\<baz\>\"", "]"}]}], "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s", "//", "FullForm"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   RowBox[{"FO", "[", 
+    RowBox[{"\"\<foo\>\"", ",", 
+     RowBox[{"Alternatives", "[", 
+      RowBox[{"\"\<bar1\>\"", ",", "\"\<bar2\>\""}], "]"}], ",", 
+     RowBox[{"Opt", "[", "\"\<baz\>\"", "]"}]}], "]"}],
+   ShowSpecialCharacters->False,
+   ShowStringCharacters->True,
+   NumberMarks->True],
+  FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s", "//", "TreeForm"}]], "Input"],
+
+Cell[BoxData[
+ GraphicsBox[
+  TagBox[GraphicsComplexBox[{{0.9837387536759296, 1.5739820058814873`}, {0., 
+    0.7869910029407436}, {0.7869910029407436, 0.7869910029407436}, {
+    0.3934955014703718, 0.}, {1.1804865044111155`, 0.}, {1.9674775073518591`, 
+    0.7869910029407436}, {1.9674775073518591`, 0.}}, {
+     {RGBColor[0.55, 0.45, 0.45], 
+      LineBox[{{1, 2}, {1, 3}, {1, 6}, {3, 4}, {3, 5}, {6, 7}}]}, {
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["FO", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 1],
+        TagBox[
+         RowBox[{"FO", "[", 
+           RowBox[{"\"foo\"", ",", 
+             RowBox[{"\"bar1\"", "|", "\"bar2\""}], ",", 
+             RowBox[{"Opt", "[", "\"baz\"", "]"}]}], "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`FO["foo", 
+          Alternatives["bar1", "bar2"], 
+          $CellContext`Opt["baz"]]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"foo\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 2],
+        TagBox["\"foo\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["foo"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["Alternatives", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 3],
+        TagBox[
+         RowBox[{"\"bar1\"", "|", "\"bar2\""}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         Alternatives["bar1", "bar2"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"bar1\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 4],
+        TagBox["\"bar1\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["bar1"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"bar2\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 5],
+        TagBox["\"bar2\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["bar2"], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox["Opt", "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 6],
+        TagBox[
+         RowBox[{"Opt", "[", "\"baz\"", "]"}], HoldForm]],
+       Annotation[#, 
+        HoldForm[
+         $CellContext`Opt["baz"]], "Tooltip"]& ], 
+      TagBox[
+       TooltipBox[InsetBox[
+         FrameBox[
+          StyleBox[
+           TagBox["\<\"baz\"\>",
+            HoldForm], "StandardForm", "Output",
+           StripOnInput->False,
+           LineColor->GrayLevel[0],
+           FrontFaceColor->GrayLevel[0],
+           BackFaceColor->GrayLevel[0],
+           GraphicsColor->GrayLevel[0],
+           FontSize->Scaled[0.044444444444444446`],
+           FontColor->GrayLevel[0]],
+          Background->RGBColor[1., 1., 0.871],
+          FrameStyle->GrayLevel[0.5],
+          StripOnInput->False], 7],
+        TagBox["\"baz\"", HoldForm]],
+       Annotation[#, 
+        HoldForm["baz"], "Tooltip"]& ]}}],
+   Annotation[#, 
+    VertexCoordinateRules -> {{0.9837387536759296, 1.5739820058814873`}, {0., 
+     0.7869910029407436}, {0.7869910029407436, 0.7869910029407436}, {
+     0.3934955014703718, 0.}, {1.1804865044111155`, 0.}, {1.9674775073518591`,
+      0.7869910029407436}, {1.9674775073518591`, 0.}}]& ],
+  AspectRatio->NCache[3^Rational[-1, 2], 0.5773502691896258],
+  FrameTicks->Automatic,
+  PlotRange->All,
+  PlotRangePadding->Scaled[0.1]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "MatchQ"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox["\<\"\\!\\(\\*RowBox[{\\\"MatchQ\\\", \\\"[\\\", RowBox[{StyleBox[\
+\\\"expr\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"form\\\", \\\"TI\\\"]}], \
+\\\"]\\\"}]\\) returns True if the pattern \\!\\(\\*StyleBox[\\\"form\\\", \\\
+\"TI\\\"]\\) matches \\!\\(\\*StyleBox[\\\"expr\\\", \\\"TI\\\"]\\), and \
+returns False otherwise. \"\>", "MSG"], "\[NonBreakingSpace]", 
+  ButtonBox[
+   StyleBox["\[RightSkeleton]", "SR"],
+   Active->True,
+   BaseStyle->"Link",
+   ButtonData->"paclet:ref/MatchQ"]}]], "Print", "PrintUsage",
+ CellTags->"Info3582381232-2078875"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"123", ",", 
+   RowBox[{"{", 
+    RowBox[{"_", ",", "_"}], "}"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"MatchQ", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"123", ",", "456"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"_", ",", "_"}], "}"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"MatchQ", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"_", ",", "_"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"_", ",", "_"}], "}"}]}], "]"}]}], "Input"],
+
+Cell[BoxData["False"], "Output"],
+
+Cell[BoxData["True"], "Output"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s", ",", 
+   StyleBox["s",
+    ShowSpecialCharacters->False,
+    ShowStringCharacters->True,
+    NumberMarks->True]}], "]"}]], "Input"],
+
+Cell[BoxData["False"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s", ",", 
+   StyleBox[
+    RowBox[{"FO", "[", 
+     RowBox[{"\"\<foo\>\"", ",", "_", ",", "_"}], "]"}],
+    ShowSpecialCharacters->False,
+    ShowStringCharacters->True,
+    NumberMarks->True]}], "]"}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"s2", "=", 
+   RowBox[{"head", "[", 
+    RowBox[{"\"\<y\>\"", "|", "\"\<x\>\""}], "]"}]}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullForm", "[", "s2", "]"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   RowBox[{"head", "[", 
+    RowBox[{"Alternatives", "[", 
+     RowBox[{"\"\<y\>\"", ",", "\"\<x\>\""}], "]"}], "]"}],
+   ShowSpecialCharacters->False,
+   ShowStringCharacters->True,
+   NumberMarks->True],
+  FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s2", ",", 
+   RowBox[{"_", "[", 
+    RowBox[{
+     RowBox[{"Verbatim", "[", "Alternatives", "]"}], "[", 
+     RowBox[{"_String", ",", "\"\<x\>\""}], "]"}], "]"}]}], "]"}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s2", ",", 
+   RowBox[{"_", "[", 
+    RowBox[{"_String", "|", "\"\<x\>\""}], "]"}]}], "]"}]], "Input"],
+
+Cell[BoxData["False"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s2", ",", 
+   RowBox[{
+    RowBox[{"_", "[", "a_", "]"}], "/;", 
+    RowBox[{
+     RowBox[{"Head", "[", "a", "]"}], "\[Equal]", "Alternatives"}]}]}], 
+  "]"}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"MatchQ", "[", 
+  RowBox[{"s2", ",", 
+   RowBox[{
+    RowBox[{"_", "[", "a_", "]"}], "/;", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Head", "[", "a", "]"}], "\[Equal]", "Alternatives"}], "&&", 
+      RowBox[{"MatchQ", "[", 
+       RowBox[{"a", ",", 
+        RowBox[{"_", "[", 
+         RowBox[{"_String", ",", "\"\<x\>\""}], "]"}]}], "]"}]}], ")"}]}]}], 
+  "]"}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1024, 720},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+Magnification:>FEPrivate`If[
+  FEPrivate`Equal[FEPrivate`$VersionNumber, 6.], 1.5, 1.5 Inherited],
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+
