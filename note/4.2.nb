@@ -1,0 +1,57 @@
+
+Restricted pattern
+In[1]:= Replace[
+{
+Sin[1],
+Cos[2],
+f[3],
+foo[4,5]
+},
+func_[a_,___]/;EvenQ[a]:> {"matched",func,a},
+1
+]
+Out[1]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4}}
+In[4]:= FullForm[func_[a_,___]/;EvenQ[a]:> {"matched",func,a}]
+Out[4]//FullForm= RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
+The following actually does not have ideal structure, and is arguably wrong sementatically:
+In[2]:= Replace[
+{
+Sin[1],
+Cos[2],
+f[3],
+foo[4,5]
+},
+func_[a_,___]:> {"matched",func,a}/;EvenQ[a],
+1
+]
+Out[2]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4}}
+In[3]:= FullForm[func_[a_,___]:> {"matched",func,a}/;EvenQ[a]]
+Out[3]//FullForm= RuleDelayed[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],Condition[List["matched",func,a],EvenQ[a]]]
+Rule and RuleDelayed are left-associative
+In[8]:= {f[x],g[x,y]}/.f_[x_]:>f[x]/.x-> 2
+Out[8]= {f[2],g[2,y]}
+Filter-and-replace
+In[18]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List-> (f[x]/.x-> 2)
+Out[18]= {f[2],g[x,y],h[2]}
+In[19]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>(f[x]/.x-> 2)
+Out[19]= {f[2],g[x,y],h[2]}
+In[3]:= {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>  (f[x]/.x-> 2)//Trace
+Out[3]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
+In[4]:= tr=%;
+Use TableForm[] to read Trace[]'s result in a more readable form
+In[7]:= tr//TableForm
+Out[7]//TableForm= f_[x_]/;f=!=List:>(f[x]/. x->2)	f_[x_]/;f=!=List:>(f[x]/. x->2)	
+{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2)		
+f=!=List	True	
+h=!=List	True	
+{f[x]/. x->2,g[x,y],h[z]/. z->2}		
+x->2
+x->2
+
+	f[x]/. x->2	f[2]
+z->2
+z->2
+
+	h[z]/. z->2	h[2]
+{f[2],g[x,y],h[2]}		
+
