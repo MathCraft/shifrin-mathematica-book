@@ -1,0 +1,265 @@
+== 介绍 ==
+在这一章里,我们将讨论一些和变量相关的基本操作(例如赋值), 我们也会讨论像条件语句和循环这样的过程式控制语句.
+
+== 符号和变量 ==
+在<nowiki>Mathematica</nowiki>中，变量(也许是复合的)是可以存储某些定义的符号. 更准确地说, 变量是一种不包含模式(pattern)的l.h.s全局规则(rule)(这实际上是我们对于变量的定义,它的意义将在后面进行解释).
+
+=== 合法的符号命名规则 ===
+接下来我们要谈一谈合法符号的命名规则. 任何含有头符号(Head Symbol)并且未被系统使用的名字都可以和某些规则相关联(全局定义),换句话说,这样的名字可以当做合法的变量名或者函数名. 当然,符号名中虽然可以包含数字,但是却不能以数字打头. 符号名中也可以包含大小写字母,但注意 <nowiki>Mathematica</nowiki> 对字母的大小写是敏感的,所以像 <code>totalsum</code> 和 <code>totalSum</code> 将被当做是不同的符号名. 有一些特殊的保留字符也是不能够在符号的名字中使用的,比如 <code>@, #, $, %, ^, &, *, !, ~</code>. 有可能让 C 程序员稍感意外的一点是,下划线 <code>_</code> 同样也是不能用在符号命名中的,它在 <nowiki>Mathematica</nowiki> 起着特殊的作用.
+
+如果你不确定你的符号名是否合法,你总是可以通过<code> Head[Unevaluated[yoursymbol]]</code> 命令来测试它的函数头(head): 如果返回值是 <code>Symbol</code> ,那么符号名是合法的. 这里我们是用 <code>Unevaluated</code> 的原因有点复杂,不好在此处彻底解释,总得来说,这样的用法是为了保证我们测试的是 <code>yoursymbol</code> 的头(head)而不是它的计算结果的头(head). 举个例子,假设你打算是用 <code>a&&True</code> 作为一个符号名,下面是对它的测试结果:
+
+<code>
+  '''Head[a&&True]'''
+  Symbol
+</code>
+
+看到 Symbol 作为输出, 我们很开心地给我们的符号赋值:
+
+
+<code>
+  '''a&&True = b'''
+  Set::write: Tag And in a && True is Protected. >> 
+  b
+</code>
+
+结果却沮丧地看到上面的错误信息. 之所以发生这种现象,是因为我们的符号名实际上是符号 <code>a</code> 和 <code>True</code> 的逻辑与(and),所以它的运算结果是 <code>a</code>, 而 <code>a</code> 的头(head)恰好是 <code>Symbol</code>. 我们很快就会明白为什么上面的赋值是不合法的,这里如果用上<code>Unevaluated</code>, 我们将会得到下结果:
+
+<code>
+  '''Head[Unevaluated[a&&True]]'''
+  And
+</code>
+
+当我们讨论了更多的话题后,这样的函数行为将会非常容易理解.
+
+<code>
+  '''a&&True = 1'''
+  Set::write: Tag And in a && True is Protected. >> 
+  1
+</code>
+
+将自己创建的任何符号(变量名或函数名)的名字以小写字母开头,也被认为是一个很好的习惯, 这样一来,就不肯能和 Mathematica 系统自带符号发生冲突, 因为所有的系统自带符号名都是大写字母或者某个特殊的符号(比如$)打头的.
+
+
+=== 获取符号的信息 ===
+对于每个头(head)为 <code>Symbol</code> (用 <code>Head[Unevaluated[symb]]</code> 测试过,见前一小节) 的符号, 我们实际上有方法来显示当前和该符号相关联的信息. 这些信息包括与该符号相关联的规则(也即,定义), 一些其他的可能的特性(properties), 比如属性(attributes), 对于系统符号来说,可能还包括对该符号用途用法的简单描述.
+
+为了显示关联某个符号的全局规则(global rule),我们可以在该符号前加一个问号,也可以通过加两个问号或者 <code>Information</code> 命令得到进一步的信息,具体参见下面的例子:
+
+<code>
+  '''a = 3;'''
+</code>
+
+下面我们来显示 <code>a</code> 的信息:
+
+<code>
+  '''?a'''
+----
+Global`a
+</code>
+
+
+或者,两个问号在这个例子中会输出一样的信息:
+
+<code>
+  '''??a'''
+----
+Global`a
+</code>
+
+
+如果我们考察一个此前没有被引入系统的符号（也就是说并不在系统的符号表中），则会得到如下结果：
+
+<code>
+  '''?c'''
+  Information::notfound : Symbol c not found.
+</code>
+
+若是考察系统自带符号，则能得到该符号的功能的一个简单描述：
+
+<code>
+  '''?Map'''
+----
+  Map[f,expr] or f/@expr applies f to each element on the first level in expr. 
+  Map[f,expr,levelspec] applies f to parts of expr specified by levelspec. 􏱏
+</code>
+
+<code>??</code>则能给出更多的信息（或用 <code>Information[]</code>）:
+
+<code>
+  '''??Map'''
+----
+  Map[f,expr] or f/@expr applies f to each element on the first level in expr. 
+  Map[f,expr,levelspec] applies f to parts of expr specified by levelspec.
+
+  Attributes[Map]={Protected}
+  Options[Map]={Heads->False}
+</code>
+
+=== "Proper"变量和 OwnValues ===
+所谓的 "Proper"变量是指 Head 是 <code>Symbol</code> 并用于储存值（表达式、定义）。因为 Mathematica 作为符号系统的特性，这些值可以是任意的类型，例如原子型或通常的表达式（Mathematica 中并无“类型”的概念，稍后会做解释）。
+
+内置函数 <code>OwnValues</code> 可以用于给出 “proper” 变量可能的关联值，举例说明如下：
+
+<code>
+  '''a = 3;'''
+  '''OwnValues[a]'''
+  {HoldPattern[a] :> 3}
+</code> 
+
+等号在此处表示一种赋值操作，我们马上就会提到。
+另一种刻画“proper” 变量的方式是：它们的值存储在 OwnValues 中。OwnValues 有个特别的属性：对于某个给定的符号至多只有一个与它关联的全局规则（global rule）可以存储在 OwnValues 中，而 OwnValues 只能存储那些与 Head 为 <code>Symbol</code> 的符号相关联的值。这也是我把这种类型的变量称作“proper”的另一个原因。
+
+=== Indexed variables 和 DownValues ===
+除了上面提到的变量外，还有另外一种对象也有存储值的能力并且有时被解释为变量。让我们来考虑下面的赋值操作：
+
+<code>
+  '''b[1] = 1;'''
+  '''b[2] = 4;'''
+  '''b[3] = 9;'''
+</code>
+
+这看起来就像数组的下表引用，但其实并不是（回忆 <nowiki>b[[i]]</nowiki>）。我们可以检查一下这些定义是不是以 <code>OwnValues</code> 的形式存储的:
+
+<code>
+  '''OwnValues[b]'''
+  {}
+</code>
+
+答案是否定的，它们实际上是以 <code>DownValues</code> 的形式存储的（全局规则的另一种类型）：
+
+<code>
+  '''DownValues[b]'''
+  {HoldPattern[b[1]]:>1,HoldPattern[b[2]]:>4,HoldPattern[b[3]]:>9}
+</code>
+
+可以发现，在 <code>DownValues</code> 的意义下，一个像 <code>b</code> 的符号可以和很多个值关联. 一般而言，<code>DownValues</code> 用于存储函数定义。因此对上面的赋值，我们可以理解为是定义了一个函数 <code>b</code>，该函数的定义域只包含 <code>{1,2,3}</code>。然而有时候把这种赋值理解成变量 <code>b</code> 的下标索引也是有用的，尤其是当所赋的值不包含 pattern 的时候（如果暂时不理解这点，也千万别沮丧，等到读完第五章和函数有关的内容，这里提到的就是小菜一碟了）。因此，我们偶尔也把这些复合的符号看做是“indexed variables”（注意，它们的 Head 并不是 <code>Symbol</code>，在此例中，Head 为 <code>b</code>）。
+
+Indexed variables 在许多情形中用处巨大，因为它们的下标索引并不局限于数字，而允许为任何表达式，因此利用这种特性，我们可以轻易地实现一些复杂的数据结构，例如 Python 中的字典（dictionaries）。Indexed variables 的这种允许任意表达式作下标的特性实际上是用 [http://zh.wikipedia.org/wiki/%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B8 Hash]实现的，Mathematica 本身并不提供 Hash 函数（在第六版以后就去除了），但是用户实际上却经常间接地是用到。
+
+=== 复合变量与 Subvalues ===
+我们实际上还可以写下如下的表达式：
+
+<code>
+  '''Clear[a, b, c, x, y, z];'''
+  '''a[b][1] = x;'''
+  '''a[b][2] = y;'''
+  '''a[b][3] = z;'''
+</code>
+这样的定义在 Mathematica 里是合法的（这里的 <code>Clear</code> 用于清理变量，我们马山就会讨论到）。然而，你会发现，上面的定义值既不是存在 <code>a</code> 的 <code>OwnValues</code> 里，也不是存在它的 <code>DownValues</code> 里，事实上，上面的变量的 head 本身也是一个复合对象：
+
+<code>
+  '''Head[Unevaluated[a[b][1]]]'''
+  a[b]
+</code>
+上面所描述的定义被存储在另一种类型的全局规则中，叫做 SubValue ('''SubValues''') 命令:
+<code>
+  '''SubValues[a]'''
+  {HoldPattern[a[b][1]]:>x,
+  HoldPattern[a[b][2]]:>y,HoldPattern[a[c][1]]:>z}
+</code>
+我们可以看到,和<code>DownValues</code>类似,在<code>SubValues</code>中是允许存储多个值的. 注意到,<code>SubValues</code>中所存储的定义是隶属于表达式最外层的 head,(通常叫做 Symbolic head). 从"变量存储值"的角度看,<code>SubValues</code>的形式是相当诡异的,所以除非在一些非常特殊的场合(比如你想实现 迭代套的 Hash 表),一般我并不建议读者用前文中描述的复合变量存储定义或者值.
+
+=== 清除变量 ===
+鉴于变量和符号都被存储再全局的规则库里,及时清理变量保证是用的变量不含有别的定义干扰就是一项相当重要的工作. 这通常可以用 <code>Clear[var]</code>命令来完成. 具体的,这个命令清除掉所有与变量关联的存储在 <code>DownValues, OwnValues, SubValues</code>中的定义或其他类型的全局规则(此外仅有其他三种类型:<code>UpValues, NValues,FormatValues</code>,此处暂不深入讨论). 在定义一个变量前及时清理变量是一个极好的习惯,以后会有很多是用 <code>Clear</code>的例子,这里我们也略举一例:
+
+<code>
+下面是符号 '''b''' 现有的相关联定义:
+  '''?b'''
+----
+Global`b
+
+b[1] = 1
+
+b[2] = 4
+
+b[3] = 9
+
+现在我们清理一下变量:
+  '''Clear[b];'''
+  '''?b'''
+----
+Global`b
+</code>
+我们可以看到相关联的定义被清除了,但是符号还是存储在符号表中的. 这里还需要说明的一点事,只有符号(head 是<code>Symbol</code>)或者是<code>String</code>类型才可以作为<code>Clear</code>的参数(如果你对为什么<code>String</code>类型可以作为参数感兴趣,请参阅 ''Mathematica'' Help 或者 ''Mathematica'' Book). 若是尝试清除复合变量,则会遇到错误:
+
+<code>
+  '''Clear[a[b]]'''
+  Clear::ssym: a[b] is not a symbol or a string. >>
+</code>
+
+因为和<code>a</code>相关的定义有好几个,所以在这个例子中,我们要更有选择性地进行清理.我们所要用到的内置函数是 <code>Unset</code>,或者可以用它的一种简便写法:
+
+<code>
+  '''a[b][1]=.'''
+  '''?a'''
+----
+Global`a
+
+a[b][2] = y
+
+a[c][1] = z
+</code>
+
+可见 <code>a[b][1]</code> 的定义已经被清除了.
+<code>Clear</code>命令只会清除掉和一个符号相关的定义,但是并不会清除掉它对应的符号属性,比如说<code>Options, Attributes</code>. 考虑下面的例子:
+<code>
+  '''Options[b] = {Heads -> True};'''
+  '''Attributes[b] = HoldAll;
+</code>
+我们给符号赋予了相关的属性,下面尝试 <code>Clear</code>:
+
+<code>
+  '''Clear[b]'''
+  '''?b'''
+----
+Global`b
+
+Attributes[b] = {HoldAll}
+
+Options[b] = {Heads -> True}
+</code>
+
+命令 <code>ClearAll</code> 则可以把那些属性也一起清理掉:
+
+<code>
+  '''ClearAll[b]'''
+  '''?b'''
+----
+Global`b
+</code>
+
+但是 <code>ClearAll</code> 并不会把符号从符号表中移除掉. 要完全移除一个符号,就好像它从来没有被定义过,我们可以使用<code>Remove</code>命令.
+
+=== 用 '''ValueQ''' 测试变量是否含有值 ===
+在 ''Mathematica'' 中,一个符号即使没有相关联的值,它也是合法的,比如说:
+<code>
+  '''b'''
+  b
+</code>
+因为<code>b</code>并没有关联的定义,所以原值返回. 我们在编程的时候有时需要确定一个变量是否有关联的定义,以便采取相应的操作,最方便的方法是用系统内置的<code>ValueQ</code>函数,请看下面的例子:
+<code>
+  '''{ValueQ[a[b][1]], ValueQ[a[b]]}'''
+  {True, False}
+</code>
+注意,即使<code>ValueQ[a[b][1]]</code>赋有值,我们也不能下结论说<code>ValueQ[a[b]]</code>就一定赋有值.在这个例子中,<code>ValueQ[a[b]]</code>是被当做复合变量名来处理的.
+
+=== 赋值将规则绑定到符号上 ===  
+从前面的讨论中我们可以知道,"变量的定义"其实水很深,远不是初看那么简单. 总得来说,赋值(assignments)将一些全局规则绑定到符号上.具体的,<code>OwnValues</code>对应该符号本身,用下标定义的值(比如<code>a[x_] = 1</code>)则会存储在<code>DownValues</code>中,以及 <code>SubValues</code>存储了对复合符号赋予的定义(如<code>a[b][1] = x</code>). 所以要清除变量的时候,要么用 <code>Clear</code>等函数,要么用<code>Unset</code>有选择性地清除, 而不是所以乱用导致我们上面举例过的错误.
+
+=== 小结 ===
+在 ''Mathematica'' 中,变量可以是符号(Symbol)也可以是常规表达式(normal expression), 它们可以用来存储任意的 ''Mathematica'' 表达式. 符号的名称可以是字母或者是数字,但是不能以数字打头,也不能包含一些特殊字符,同样不能包含下划线. 命令 <code>Head[Unevaluated[symb]]</code>可以用来检查一个符号是否被合法命名(head 是 <code>Symbol</code>). 读者也许要避免是用系统预先定义的符号当做用户符号,一个好的习惯是所有用户定义符号都以小写字母打头,这可以确保避免出现和系统符号命名冲突的情形.
+
+''Mathematica''中有几个用来显示变量信息的命令,比如 <code>?</code> 和 <code>??(Information)</code>.
+
+所有的变量定义都可以看做是全局规则. 通常变量名只是一个符号(head 为 <code>Symbol</code>). 这种情况下,定义被存储在<code>OwnValues</code>. 第二种定义类型(较少是用)为有索引的符号的定义,它们的定义被存储在 <code>DownValues</code>中, 有些非常特殊的情形,读者可能还会接触到<code>SubValues</code>. 后两种类型的定义都较少使用,因为它们的定义并不是和符号联系在一起,而往往是和函数定义相关的.
+
+在你透彻理解<code>DownValues, SubValues</code>之前,我并不建议你们去是用他们.但是一旦你彻底理解,那么它们带来的好处也是让人异常惊喜的.
+
+一旦一个变量和一个全局定义捆绑在一起,那么它们在被清理或者被同类型的定义覆盖之前,都会一直存在在 ''Mathematica''当中.
+
+<code>Clear</code>命令用来清理和符号相关联的定义(所以是<code>OwnValues</code>), 要把和符号关联的属性也清理掉,可以用<code>ClearAll</code>,<code>Remove</code>干脆直接把符号从符号表中移除了,就好像这个符号从来没有引入定义过.这几个命令都不能处理 复合型变量(<code>DownValues, SubValues</code>),因为它们的允许的参数并不包括复合变量.要清理复合变量,可以用 <code>Unset</code>
+
+== 动态数据类型 ==
+== 赋值 ==
+== 相等测试 ==
