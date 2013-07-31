@@ -1,0 +1,150 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      4335,        140]
+NotebookOptionsPosition[      3840,        117]
+NotebookOutlinePosition[      4216,        134]
+CellTagsIndexPosition[      4173,        131]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "purge", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"testQ", "[", "exp_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"FreeQ", "[", 
+      RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}], "||", 
+     RowBox[{"exp", "===", "\"\<Spellings\>\""}], "||", 
+     RowBox[{"MatchQ", "[", 
+      RowBox[{"exp", ",", 
+       RowBox[{
+        RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+        RowBox[{"\"\<Spellings\>\"", ",", "_"}], "]"}]}], "]"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"purge", "[", "exp_", "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ReplaceRepeated", "[", 
+     RowBox[{"#", ",", 
+      RowBox[{"Null", "\[Rule]", 
+       RowBox[{"Sequence", "[", "]"}]}]}], "]"}], "&"}], "@", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"testQ", "[", "exp", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"FreeQ", "[", 
+           RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}], ",", "Null", ",",
+           "exp"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Return", "[", 
+        RowBox[{
+         RowBox[{"First", "@", "exp"}], "\[Rule]", 
+         RowBox[{"purge", "/@", 
+          RowBox[{"Last", "[", "exp", "]"}]}]}], "]"}]}], 
+      "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ExtractClearData", "[", "exp_", "]"}], ":=", 
+   RowBox[{"Last", "@", 
+    RowBox[{"purge", "[", 
+     RowBox[{"\"\<s\>\"", "\[Rule]", "exp"}], "]"}]}]}], ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"$test", "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<x\>\""}], ",", 
+    RowBox[{"\"\<x\>\"", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\"\<Spellings\>\"", "\[Rule]", 
+        RowBox[{"FO", "[", "\"\<w\>\"", "]"}]}], ",", "\"\<wadf\>\"", ",", 
+       "\"\<sdafa\>\""}], "}"}]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.5832567902976017`*^9, 3.583256840784588*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"\<\"Spellings\"\>", "\[Rule]", "\<\"x\"\>"}], ",", 
+   RowBox[{"\<\"x\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"Spellings\"\>", "\[Rule]", 
+       RowBox[{"FO", "[", "\<\"w\"\>", "]"}]}], ",", "\<\"wadf\"\>", 
+      ",", "\<\"sdafa\"\>"}], "}"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.583256843606635*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ExtractClearData", "@", "$test"}]], "Input",
+ CellChangeTimes->{{3.5832568448398237`*^9, 3.583256855199459*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"\<\"Spellings\"\>", "\[Rule]", "\<\"x\"\>"}], ",", 
+   RowBox[{"\<\"x\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\<\"Spellings\"\>", "\[Rule]", 
+      RowBox[{"FO", "[", "\<\"w\"\>", "]"}]}], "}"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.583256855897667*^9}]
+}, Open  ]]
+},
+WindowSize->{1024, 720},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 1904, 50, 267, "Input"],
+Cell[CellGroupData[{
+Cell[2486, 74, 449, 11, 28, "Input"],
+Cell[2938, 87, 389, 10, 28, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3364, 102, 136, 2, 28, "Input"],
+Cell[3503, 106, 321, 8, 28, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
