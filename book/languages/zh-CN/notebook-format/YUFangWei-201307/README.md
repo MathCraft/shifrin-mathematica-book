@@ -1,0 +1,1 @@
+This is (partially complete) translation of Leonid Shifrin's book "Mathematica Programming: an advanced introduction" by 余方伟 (http://www.renren.com/349025831/profile) . 

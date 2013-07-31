@@ -1,0 +1,24 @@
+我们现在讨论一些对[http://reference.wolfram.com/mathematica/ref/List.zh.html 元素列表]进行排序的很有用的 Mathematica 内置函数。[http://reference.wolfram.com/mathematica/ref/Sort.zh.html Sort] [[函数]]对列表进行排序。[http://reference.wolfram.com/mathematica/ref/Union.zh.html Union] 函数对一个列表进行排序并剔除重复元素。[http://reference.wolfram.com/mathematica/ref/Split.zh.html Split] 函数将一个列表分成若干由连续出现的相同元素组成的子列表。这三个列表操作函数都可以使用自定义的“同一性”判断条件。以下我们详细解释。
+
+
+=== Sort 命令 ===
+
+=== 简单 Sort ===
+
+这个函数是用来对列表进行排序，例如：
+
+ In[1]:= Clear[{a,b,c,d,e,f,g,t}];
+ Sort[{a,d,e,b,g,t,f,d,a,b,f,c}]
+
+ Out[2]= {a,a,b,b,c,d,d,e,f,f,g,t}
+
+<nowiki>Sort</nowiki> 可以对元素为任意 Mathematica 表达式的列表进行排
+序。默认的排序法则是对符号使用字典序、对数字使用升序、对列表的相同位置
+的元素进行顺次排序。这样的排序法则称为 Mathematica 正则排序-请参考
+[http://reference.wolfram.com/mathematica/ref/Sort.html Mathematica 文档]。
+
+我们举一个对只含有整数元素的复合列表进行排序例子:
+
+
+[[Category:Mathematica编程：高级导论]]
+
