@@ -1,0 +1,485 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Replace", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"1", ",", 
+     RowBox[{"{", "2", "}"}]}], "}"}], ",", 
+   RowBox[{"_List", "\[Rule]", " ", "\"\<XXX\>\""}], ",", "1"}], 
+  "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", "\<\"XXX\"\>"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Replace", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "a", "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", "b"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", "b", ",", "c"}], "}"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"elets_", ",", 
+         RowBox[{"extra", ":", "_", ":", "1"}]}], "}"}], "\[RuleDelayed]", 
+       "   ", 
+       RowBox[{"Plus", "[", 
+        RowBox[{"elets", ",", "extra"}], "]"}]}], ","}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"elets__", ",", 
+       RowBox[{"extra", ":", "_", ":", "1"}]}], "}"}], "\[RuleDelayed]", 
+     "   ", 
+     RowBox[{"Plus", "[", 
+      RowBox[{"elets", ",", "extra"}], "]"}]}], 
+    RowBox[{"(*", 
+     RowBox[{",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"elets___", ",", 
+         RowBox[{"extra", ":", "_", ":", "1"}]}], "}"}], "\[RuleDelayed]", 
+       "   ", 
+       RowBox[{"Plus", "[", 
+        RowBox[{"elets", ",", "extra"}], "]"}]}]}], "*)"}], 
+    "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", "1"}], 
+  "\[IndentingNewLine]", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"1", "+", "a"}], ",", 
+   RowBox[{"a", "+", "b"}], ",", 
+   RowBox[{"a", "+", "b", "+", "c"}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullForm", "[", 
+  RowBox[{"extra", ":", 
+   RowBox[{"(", 
+    RowBox[{"_", ":", "1"}], ")"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   RowBox[{"Pattern", "[", 
+    RowBox[{"extra", ",", 
+     RowBox[{"Optional", "[", 
+      RowBox[{
+       RowBox[{"Blank", "[", "]"}], ",", "1"}], "]"}]}], "]"}],
+   ShowSpecialCharacters->False,
+   ShowStringCharacters->True,
+   NumberMarks->True],
+  FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullForm", "[", 
+  RowBox[{"{", 
+   RowBox[{",", "a"}], "}"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   RowBox[{"List", "[", 
+    RowBox[{"Null", ",", "a"}], "]"}],
+   ShowSpecialCharacters->False,
+   ShowStringCharacters->True,
+   NumberMarks->True],
+  FullForm]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Sequence", "@@", 
+     RowBox[{"{", "}"}]}], ",", "a"}], "}"}], "===", 
+  RowBox[{"{", "a", "}"}]}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"Sequence", "[", "]"}], ",", "a"}], "}"}], "===", 
+  RowBox[{"{", "a", "}"}]}]], "Input"],
+
+Cell[BoxData["True"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Unevaluated", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"Sequence", "[", "]"}], ",", "a"}], "}"}], "]"}], "===", 
+  RowBox[{"{", "a", "}"}]}]], "Input"],
+
+Cell[BoxData["False"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Optional in function definitions\
+\>", "Subsection"],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "foobar", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"foobar", "[", "x_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"x", "^", "2"}], "+", 
+   RowBox[{"1", "^", "2"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"foobar", "[", 
+   RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"x", "^", "2"}], "+", 
+   RowBox[{"y", "^", "2"}]}]}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"DownValues", "[", "foobar", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"HoldPattern", "[", 
+     RowBox[{"foobar", "[", "x_", "]"}], "]"}], "\[RuleDelayed]", 
+    RowBox[{
+     SuperscriptBox["x", "2"], "+", 
+     SuperscriptBox["1", "2"]}]}], ",", 
+   RowBox[{
+    RowBox[{"HoldPattern", "[", 
+     RowBox[{"foobar", "[", 
+      RowBox[{"x_", ",", "y_"}], "]"}], "]"}], "\[RuleDelayed]", 
+    RowBox[{
+     SuperscriptBox["x", "2"], "+", 
+     SuperscriptBox["y", "2"]}]}]}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"a", "=", "1"}], ";"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"OwnValues", "[", "a", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"HoldPattern", "[", "a", "]"}], "\[RuleDelayed]", "1"}], 
+  "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "foobar", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"foobar", "[", "a", "]"}], "[", "b", "]"}], "=", "1"}], 
+  ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SubValues", "[", "foobar", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"HoldPattern", "[", 
+    RowBox[{
+     RowBox[{"foobar", "[", "1", "]"}], "[", "b", "]"}], "]"}], 
+   "\[RuleDelayed]", "1"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"foobar", "[", "1", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"foobar", "[", 
+  RowBox[{"1", ",", "2"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"foobar", "[", 
+  RowBox[{"2", ",", "1"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"foobar", "[", 
+  RowBox[{"2", ",", "3"}], "]"}]}], "Input"],
+
+Cell[BoxData["2"], "Output"],
+
+Cell[BoxData["5"], "Output"],
+
+Cell[BoxData["5"], "Output"],
+
+Cell[BoxData["13"], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"foobar1", "[", 
+   RowBox[{"x_", ",", 
+    RowBox[{"y_:", "1"}]}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"x", "^", "2"}], "+", 
+   RowBox[{"y", "^", "2"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"foobar", "[", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"foo", "=."}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullForm", "[", 
+  RowBox[{"(", "_.", ")"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   RowBox[{"Optional", "[", 
+    RowBox[{"Blank", "[", "]"}], "]"}],
+   ShowSpecialCharacters->False,
+   ShowStringCharacters->True,
+   NumberMarks->True],
+  FullForm]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"foobar2", "[", "x_.", "]"}], ":=", 
+   RowBox[{"x", "^", "2"}]}], ";"}]], "Input"],
+
+Cell[BoxData["foobar"], "Input"],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "foobar", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"foobar", "[", "x_.", "]"}], ":=", "x"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"foobar", "[", "2", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"foobar", "[", "]"}]}], "Input"],
+
+Cell[BoxData["2"], "Output"],
+
+Cell[BoxData[
+ RowBox[{"foobar", "[", "]"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Jiecao\[CloseCurlyQuote]s awesome example", "Subsection"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"fib", "[", "1", "]"}], "=", 
+   RowBox[{
+    RowBox[{"fib", "[", "2", "]"}], "=", "1"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fib", "[", "n_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"fib", "[", 
+     RowBox[{"n", "-", "1"}], "]"}], "+", 
+    RowBox[{"fib", "[", 
+     RowBox[{"n", "-", "2"}], "]"}]}]}], ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"fib", "[", "30", "]"}], "//", "Timing"}], "\n"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "1.82456799999999996764188381348503753543`6.281759967044664", ",", 
+   "832040"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "Fib", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Fib", "[", "1", "]"}], "=", 
+   RowBox[{
+    RowBox[{"Fib", "[", "2", "]"}], "=", "1"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Fib", "[", "n_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Fib", "[", "n", "]"}], "=", 
+    RowBox[{
+     RowBox[{"Fib", "[", 
+      RowBox[{"n", "-", "1"}], "]"}], "+", 
+     RowBox[{"Fib", "[", 
+      RowBox[{"n", "-", "2"}], "]"}]}]}]}], ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Fib", "[", "30", "]"}], "//", "Timing"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "0.00504899999999999966882047175431580399`3.7238052839751106", ",", 
+   "832040"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DownValues", "[", "Fib", "]"}], "//", "Column"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "1", "]"}], "]"}], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "2", "]"}], "]"}], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "n_", "]"}], "]"}], "\[RuleDelayed]", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Fib", "[", "n", "]"}], "=", 
+        RowBox[{
+         RowBox[{"Fib", "[", 
+          RowBox[{"n", "-", "1"}], "]"}], "+", 
+         RowBox[{"Fib", "[", 
+          RowBox[{"n", "-", "2"}], "]"}]}]}], ")"}]}]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Fib", "[", "5", "]"}]], "Input"],
+
+Cell[BoxData["5"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DownValues", "[", "Fib", "]"}], "//", "Column"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "1", "]"}], "]"}], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "2", "]"}], "]"}], "\[RuleDelayed]", "1"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "3", "]"}], "]"}], "\[RuleDelayed]", "2"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "4", "]"}], "]"}], "\[RuleDelayed]", "3"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "5", "]"}], "]"}], "\[RuleDelayed]", "5"}]},
+    {
+     RowBox[{
+      RowBox[{"HoldPattern", "[", 
+       RowBox[{"Fib", "[", "n_", "]"}], "]"}], "\[RuleDelayed]", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Fib", "[", "n", "]"}], "=", 
+        RowBox[{
+         RowBox[{"Fib", "[", 
+          RowBox[{"n", "-", "1"}], "]"}], "+", 
+         RowBox[{"Fib", "[", 
+          RowBox[{"n", "-", "2"}], "]"}]}]}], ")"}]}]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Trace", "[", 
+  RowBox[{"Fib", "[", "5", "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   TagBox[
+    RowBox[{"Fib", "[", "5", "]"}],
+    HoldForm], ",", 
+   TagBox["5",
+    HoldForm]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1024, 720},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+

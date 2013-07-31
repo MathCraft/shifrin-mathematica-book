@@ -1,77 +1,86 @@
 Restricted pattern
 Condition
-In[1]:= FullForm[func_[a_,___]/;EvenQ[a]]
-Out[1]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]]
-In[2]:= FullForm[func_[a_,b_,___]/;Mod[a,2]==Mod[b,2]]
-Out[2]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],Pattern[b,Blank[]],BlankNullSequence[]],Equal[Mod[a,2],Mod[b,2]]]
+In[180]:= FullForm[func_[a_,___]/;EvenQ[a]]
+Out[180]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]]
+In[181]:= FullForm[func_[a_,b_,___]/;Mod[a,2]==Mod[b,2]]
+Out[181]//FullForm= Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],Pattern[b,Blank[]],BlankNullSequence[]],Equal[Mod[a,2],Mod[b,2]]]
 PatternTest
-In[3]:= FullForm[func_[a_?EvenQ,___]]
-Out[3]//FullForm= Pattern[func,Blank[]][PatternTest[Pattern[a,Blank[]],EvenQ],BlankNullSequence[]]
-Filter and replace
-In[9]:= expr={ Sin[1],Cos[2],f[3],foo[4],5,f,g[]};
+In[182]:= FullForm[func_[a_?EvenQ,___]]
+Out[182]//FullForm= Pattern[func,Blank[]][PatternTest[Pattern[a,Blank[]],EvenQ],BlankNullSequence[]]
+Filter and replace technique
+In[184]:= expr={ Sin[1],Cos[2],f[3],foo[4],5,f,g[]};
+
 Using Replace
-In[10]:= Replace[expr,func_[a_,___]/;EvenQ[a]:> {"matched",func,a},1]
-Out[10]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4},5,f,g[]}
+
+In[185]:= Replace[expr,func_[a_,___]/;EvenQ[a]:> {"matched",func,a},1]
+
+Out[185]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4},5,f,g[]}
 Using Cases
-
-In[5]:= Cases[expr, func_[a_,___]/;EvenQ[a]:> {"matched",func},1]
-Out[5]= {{matched,Cos},{matched,foo}}
-In[6]:= Cases[expr, func_[a_,___]:> {"matched",func}/;EvenQ[a],1]
-Out[6]= {{matched,Cos},{matched,foo}}
-Rule vs RuleDelayed
-In[11]:= (*** Use RuleDelayed when RHS mentions symbols used in LHS **)
+In[186]:= Cases[expr, func_[a_,___]/;EvenQ[a]:> {"matched",func},1]
+Out[186]= {{matched,Cos},{matched,foo}}
+In[187]:= Cases[expr, func_[a_,___]:> {"matched",func}/;EvenQ[a],1]
+Out[187]= {{matched,Cos},{matched,foo}}
+Rule vs. RuleDelayed
+(*** Use RuleDelayed when RHS mentions symbols used in LHS ***)
 a=3;
-(*Remove[a]*)
+(* Remove[a] *)
 Replace[expr,func_[a_?EvenQ,___]-> {"matched",func,a},1]
-
-Out[12]= {Sin[1],{matched,Cos,3},f[3],{matched,foo,3},5,f,g[]}
+Out[193]= {Sin[1],{matched,Cos,3},f[3],{matched,foo,3},5,f,g[]}
 (**
 RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
 The following actually does not have ideal structure,and is arguably wrong sementatically:
 **)
-In[13]:= Replace[expr,func_[a_,___]:> {"matched",func,a}/;EvenQ[a],1]
-Out[13]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4},5,f,g[]}
-Difference
-In[14]:= f1=FullForm[func_[a_,___]/;EvenQ[a]:> {"matched",func,a}]
-Out[14]//FullForm= RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
-In[15]:= f2=FullForm[func_[a_,___]:> {"matched",func,a}/;EvenQ[a]]
-Out[15]//FullForm= RuleDelayed[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],Condition[List["matched",func,a],EvenQ[a]]]
-In[16]:= f1===f2
-Out[16]= False
-In[8]:= t2=Trace[Cases[expr,func_[a_,___]/;EvenQ[a]:> {"matched",func}]]
-Out[8]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]/;EvenQ[a]:>{matched,func},func_[a_,___]/;EvenQ[a]:>{matched,func}},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]/;EvenQ[a]:>{matched,func}],{EvenQ[1],False},{EvenQ[2],True},{EvenQ[3],False},{EvenQ[4],True},{{matched,Cos},{matched,foo}}}
-t1=Trace[Cases[expr,func_[a_,___]:> {"matched",func}/;EvenQ[a]]]
-Out[7]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]:>{matched,func}/;EvenQ[a],func_[a_,___]:>{matched,func}/;EvenQ[a]},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]:>{matched,func}/;EvenQ[a]],{{EvenQ[1],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,Sin}]],False],Fail},{{EvenQ[2],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,Cos}]],True],$ConditionHold[$ConditionHold[{matched,Cos}]]},{{EvenQ[3],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,f}]],False],Fail},{{EvenQ[4],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,foo}]],True],$ConditionHold[$ConditionHold[{matched,foo}]]},{{matched,Cos},{matched,foo}}}
-Examples
-In[17]:=
+Replace[expr,func_[a_,___]:> {"matched",func,a}/;EvenQ[a],1]
+Out[194]= {Sin[1],{matched,Cos,2},f[3],{matched,foo,4},5,f,g[]}
+In[200]:= (* Examples *)
 {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List-> (f[x]/.x-> 2)
 {f[2],g[x,y],h[2]}
 {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>(f[x]/.x-> 2)
 {f[2],g[x,y],h[2]}
 {f[x],g[x,y],h[z]}/.f_[x_]/;f=!=List:>  (f[x]/.x-> 2)//Trace
 {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
-Out[17]= {f[2],g[x,y],h[2]}
-Out[18]= {f[2],g[x,y],h[2]}
-Out[19]= {f[2],g[x,y],h[2]}
-Out[20]= {f[2],g[x,y],h[2]}
-Out[21]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[x],g[x,y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[x]/. x->2,g[x,y],h[z]/. z->2},{{x->2,x->2},f[x]/. x->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[x,y],h[2]}}
-Out[22]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[2],g[x,y],h[2]},{True,True},{True,True},{f[2],g[x,y],h[2]},{{x->2,x->2},f[2],f[2]},{{z->2,z->2},h[2],h[2]},{f[2],g[x,y],h[2]}}
+
+Out[200]= {f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}
+Out[201]= {f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}
+Out[202]= {f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}
+Out[203]= {f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}
+Out[204]= {{{{x,{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}},f[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}]},{{x,{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}},g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y]},{f[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[z]}},{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[z]}/. f_[x_]/;f=!=List:>(f[x]/. x->2),{f=!=List,True},{h=!=List,True},{f[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}]/. {{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2,g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[z]/. z->2},{{{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2,{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2},f[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}]/. {{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2,f[2]},{{z->2,z->2},h[z]/. z->2,h[2]},{f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}}
+Out[205]= {{f_[x_]/;f=!=List:>(f[x]/. x->2),f_[x_]/;f=!=List:>(f[x]/. x->2)},{f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]},{True,True},{True,True},{f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]},{{{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2,{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}}->2},f[2],f[2]},{{z->2,z->2},h[2],h[2]},{f[2],g[{{3,10,8,3,5,4,4,2,6,10},{2,8,3,5,10,8,4,2,4,1},{0,1,6,6,7,8,9,4,7,3}},y],h[2]}}
+In[235]:= f1=FullForm[func_[a_,___]/;EvenQ[a]:> {"matched",func,a}]
+f2=FullForm[func_[a_,___]:> {"matched",func,a}/;EvenQ[a]]
+f1===f2
+t2=Trace[Cases[expr,func_[a_,___]/;EvenQ[a]:> {"matched",func}]]
+t1=Trace[Cases[expr,func_[a_,___]:> {"matched",func}/;EvenQ[a]]]
+Out[235]//FullForm= RuleDelayed[Condition[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],EvenQ[a]],List["matched",func,a]]
+Out[236]//FullForm= RuleDelayed[Pattern[func,Blank[]][Pattern[a,Blank[]],BlankNullSequence[]],Condition[List["matched",func,a],EvenQ[a]]]
+Out[237]= False
+Out[238]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]/;EvenQ[a]:>{matched,func},func_[a_,___]/;EvenQ[a]:>{matched,func}},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]/;EvenQ[a]:>{matched,func}],{EvenQ[1],False},{EvenQ[2],True},{EvenQ[3],False},{EvenQ[4],True},{{matched,Cos},{matched,foo}}}
+Out[239]= {{expr,{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}},{func_[a_,___]:>{matched,func}/;EvenQ[a],func_[a_,___]:>{matched,func}/;EvenQ[a]},Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]:>{matched,func}/;EvenQ[a]],{{EvenQ[1],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,Sin}]],False],Fail},{{EvenQ[2],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,Cos}]],True],$ConditionHold[$ConditionHold[{matched,Cos}]]},{{EvenQ[3],False},RuleCondition[$ConditionHold[$ConditionHold[{matched,f}]],False],Fail},{{EvenQ[4],True},RuleCondition[$ConditionHold[$ConditionHold[{matched,foo}]],True],$ConditionHold[$ConditionHold[{matched,foo}]]},{{matched,Cos},{matched,foo}}}
 Use TableForm[] to read Trace[]' s result in a more readable form
-In[23]:= tr=%;
+In[240]:=
+tr=%;
 
-In[24]:= tr//TableForm
-Out[24]//TableForm= f_[x_]/;f=!=List:>(f[x]/. x->2)	f_[x_]/;f=!=List:>(f[x]/. x->2)	
-f[2]	g[x,y]	h[2]
-True	True	
-True	True	
-f[2]	g[x,y]	h[2]
-x->2
-x->2
+tr//TableForm
 
-	f[2]	f[2]
-z->2
-z->2
 
-	h[2]	h[2]
-f[2]	g[x,y]	h[2]
+Out[242]//TableForm= expr	{Sin[1],Cos[2],f[3],foo[4],5,f,g[]}	
+func_[a_,___]:>{matched,func}/;EvenQ[a]	func_[a_,___]:>{matched,func}/;EvenQ[a]	
+Cases[{Sin[1],Cos[2],f[3],foo[4],5,f,g[]},func_[a_,___]:>{matched,func}/;EvenQ[a]]		
+EvenQ[1]
+False
+
+	RuleCondition[$ConditionHold[$ConditionHold[{matched,Sin}]],False]	Fail
+EvenQ[2]
+True
+
+	RuleCondition[$ConditionHold[$ConditionHold[{matched,Cos}]],True]	$ConditionHold[$ConditionHold[{matched,Cos}]]
+EvenQ[3]
+False
+
+	RuleCondition[$ConditionHold[$ConditionHold[{matched,f}]],False]	Fail
+EvenQ[4]
+True
+
+	RuleCondition[$ConditionHold[$ConditionHold[{matched,foo}]],True]	$ConditionHold[$ConditionHold[{matched,foo}]]
+{{matched,Cos},{matched,foo}}		
 

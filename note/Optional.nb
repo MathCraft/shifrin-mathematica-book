@@ -1,0 +1,90 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"f", "[", 
+   RowBox[{"x", ":", 
+    RowBox[{"_", ":", "1"}]}], "]"}], ":=", "x"}], "\[IndentingNewLine]", 
+ RowBox[{"f", "[", "100", "]"}]}], "Input",
+ CellChangeTimes->{{3.440872680681055*^9, 3.4408727651550694`*^9}}],
+
+Cell[BoxData["100"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"f", "[", "]"}]], "Input"],
+
+Cell[BoxData["1"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "F", "]"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"\"\<Foo\>\"", "\[Rule]", " ", "2"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"F", "[", 
+    RowBox[{"x_", ",", 
+     RowBox[{"OptionsPattern", "[", "]"}]}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"OptionValue", "[", "\"\<Foo\>\"", "]"}], "^", "2"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"G", "[", 
+   RowBox[{"x_", ",", 
+    RowBox[{"opts", ":", 
+     RowBox[{"OptionsPattern", "[", "F", "]"}]}]}], "]"}], ":=", 
+  RowBox[{"F", "[", 
+   RowBox[{"1", ",", "opts"}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"G", "[", "1", "]"}]}], "Input"],
+
+Cell[BoxData["4"], "Output",
+ CellChangeTimes->{3.4408728411171837`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "a", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Replace", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "a", "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", "b"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"a", ",", "b", ",", "c"}], "}"}]}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"x__", ",", 
+      RowBox[{"y", ":", "_", ":", "1"}]}], "}"}], "\[RuleDelayed]", " ", 
+    RowBox[{"{", 
+     RowBox[{"x", "+", "y"}], "}"}]}], ",", "1"}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"1", "+", "a"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a", "+", "b"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"a", "+", "b", "+", "c"}], "}"}]}], "}"}]], "Output"]
+}, Open  ]]
+},
+WindowSize->{640, 750},
+WindowMargins->{{520, Automatic}, {Automatic, 126}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]

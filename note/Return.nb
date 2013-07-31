@@ -1,0 +1,69 @@
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Return", "Title"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Module", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "=", "1"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", "x", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Pause", "[", "1", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Return", "[", "x", "]"}]}]}], "\[IndentingNewLine]", 
+  "]"}]], "Input"],
+
+Cell[BoxData["1"], "Print"],
+
+Cell[BoxData[
+ RowBox[{"Return", "[", "1", "]"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Module", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "=", "1"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", "x", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Pause", "[", "1", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Return", "[", 
+     RowBox[{"x", ",", "Module"}], "]"}]}]}], "\[IndentingNewLine]", 
+  "]"}]], "Input"],
+
+Cell[BoxData["1"], "Print"],
+
+Cell[BoxData["1"], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Module", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"{", "x", "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "=", "1"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", "x", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Pause", "[", "1", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Return", "[", "]"}]}]}], "\[IndentingNewLine]", "]"}]], "Input"],
+
+Cell[BoxData["1"], "Print"],
+
+Cell[BoxData[
+ RowBox[{"Return", "[", "]"}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{740, 752},
+WindowMargins->{{Automatic, 303}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+

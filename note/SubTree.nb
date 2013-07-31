@@ -1,0 +1,448 @@
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"tree", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "\"\<2\>\"", ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "\"\<foobar\>\"", ",", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "\"\<foobar\>\""}], "}"}]}], "}"}]}], "}"}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"atomLeafNodeQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{"FreeQ", "[", 
+    RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"nonAtomLeafNodeQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{"MatchQ", "[", 
+    RowBox[{"exp", ",", 
+     RowBox[{
+      RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+      RowBox[{"\"\<Spellings\>\"", ",", "_"}], "]"}]}], "]"}]}], 
+  ";"}]}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["tree"], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", "}"}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"ReplaceAll", "[", 
+  RowBox[{"tree", ",", 
+   RowBox[{"_String", "\[Rule]", " ", 
+    RowBox[{"Sequence", "[", "]"}]}]}], "]"}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{"tree1", "=", 
+  RowBox[{"{", 
+   RowBox[{"Null", ",", "\"\<1\>\"", ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<2\>\"", ",", "Null"}], "}"}]}], 
+   "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{"tree2", "=", 
+  RowBox[{"{", 
+   RowBox[{"\"\<XXX\>\"", ",", "\"\<1\>\"", ",", 
+    RowBox[{"{", 
+     RowBox[{"\"\<2\>\"", ",", "\"\<XXX\>\""}], "}"}]}], "}"}]}]}], "Input"],
+
+Cell[BoxData[{
+ RowBox[{"ReplaceRepeated", "[", 
+  RowBox[{"tree1", ",", 
+   RowBox[{"Null", "\[Rule]", " ", 
+    RowBox[{"Sequence", "[", "]"}]}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"ReplaceRepeated", "[", 
+  RowBox[{
+   RowBox[{"\"\<S\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<XXX\>\"", ",", 
+      RowBox[{"\"\<x\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<Spellings\>\"", "\[Rule]", 
+          RowBox[{"FO", "[", 
+           RowBox[{"\"\<x\>\"", ",", "\"\<Spellings\>\""}], "]"}]}], ",", 
+         RowBox[{"\"\<v\>\"", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<xdfs\>\""}], ",", 
+            "\"\<XXX\>\""}], "}"}]}]}], "}"}]}], ",", 
+      RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<a\>\""}]}], "}"}]}], ",", 
+   RowBox[{"\"\<XXX\>\"", "\[Rule]", " ", 
+    RowBox[{"Sequence", "[", "]"}]}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"tree", "//", "TreeForm"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\"\<foobar\>\"", ",", 
+    RowBox[{"{", "\"\<foobar\>\"", "}"}]}], "}"}], "}"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Composition", "[", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Extract", "[", 
+       RowBox[{"tree", ",", "#"}], "]"}], "&"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"Prepend", "[", 
+       RowBox[{"#", ",", "1"}], "]"}], "&"}], ","}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Position", "[", 
+     RowBox[{"#", ",", "\"\<foobar\>\""}], "]"}], "&"}], 
+   "\[IndentingNewLine]", "]"}], "[", "tree", "]"}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["jiecao", "Subsection"],
+
+Cell[BoxData["Quit"], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"\"\<S\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<dfa\>\"", ",", "\"\<Spellings\>\"", ",", 
+      RowBox[{"\"\<x\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<Spellings\>\"", "\[Rule]", 
+          RowBox[{"FO", "[", 
+           RowBox[{"\"\<x\>\"", ",", "\"\<Spellings\>\""}], "]"}]}], ",", 
+         RowBox[{"\"\<v\>\"", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<xdfs\>\""}], ",", 
+            "\"\<dsfas\>\""}], "}"}]}]}], "}"}]}], ",", 
+      RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<a\>\""}]}], "}"}]}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"testQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}], "||", 
+    RowBox[{"MatchQ", "[", 
+     RowBox[{"exp", ",", 
+      RowBox[{
+       RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+       RowBox[{"\"\<Spellings\>\"", ",", "_"}], "]"}]}], "]"}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"purge", "[", "exp_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ReplaceRepeated", "[", 
+     RowBox[{"#", ",", 
+      RowBox[{"Null", "\[Rule]", 
+       RowBox[{"Sequence", "[", "]"}]}]}], "]"}], "&"}], "@", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"testQ", "[", "exp", "]"}], ",", 
+       RowBox[{"Return", "[", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"FreeQ", "[", 
+           RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}], ",", "Null", ",",
+           "exp"}], "]"}], "]"}], ",", 
+       RowBox[{"Return", "[", 
+        RowBox[{
+         RowBox[{"First", "@", "exp"}], "\[Rule]", 
+         RowBox[{"purge", "/@", 
+          RowBox[{"Last", "[", "exp", "]"}]}]}], "]"}]}], "]"}]}], 
+    "]"}]}]}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"purge", "[", "expr", "]"}]], "Input"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["jiecaoSubTree", "Subsection"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"expr", "=", 
+   RowBox[{"\"\<S\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<dfa\>\"", ",", "\"\<Spellings\>\"", ",", 
+      RowBox[{"\"\<x\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<Spellings\>\"", "\[Rule]", 
+          RowBox[{"FO", "[", 
+           RowBox[{"\"\<x\>\"", ",", "\"\<Spellings\>\""}], "]"}]}], ",", 
+         RowBox[{"\"\<v\>\"", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<xdfs\>\""}], ",", 
+            "\"\<dsfas\>\""}], "}"}]}]}], "}"}]}], ",", 
+      RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<a\>\""}]}], "}"}]}]}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Clear", "[", "trim", "]"}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"atomLeafNodeQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{"FreeQ", "[", 
+    RowBox[{"exp", ",", "\"\<Spellings\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"nonAtomLeafNodeQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{"MatchQ", "[", 
+    RowBox[{"exp", ",", 
+     RowBox[{
+      RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+      RowBox[{"\"\<Spellings\>\"", ",", "_"}], "]"}]}], "]"}]}], ";"}], "\n", 
+
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"leafNodeQ", "[", "exp_", "]"}], ":=", 
+    RowBox[{"Or", "[", 
+     RowBox[{
+      RowBox[{"atomLeafNodeQ", "[", "exp", "]"}], ",", 
+      RowBox[{"nonAtomLeafNodeQ", "[", "exp", "]"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Clear", "[", "markBadNode", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"markBadNode", "[", 
+   RowBox[{"exp_", ",", 
+    RowBox[{"flag_:", "\"\<BadNode\>\""}]}], "]"}], ":=", 
+  RowBox[{"If", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"leafNodeQ", "[", "exp", "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Return", "[", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"atomLeafNodeQ", "[", "exp", "]"}], ",", "flag", ",", "exp"}], 
+      "]"}], "]"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"Return", "[", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"exp", "=!=", "\"\<Spellings\>\""}], ",", 
+       RowBox[{
+        RowBox[{"First", "[", "exp", "]"}], "\[Rule]", 
+        RowBox[{"Map", "[", 
+         RowBox[{"markBadNode", ",", 
+          RowBox[{"Last", "[", "exp", "]"}]}], "]"}]}], ",", "flag"}], "]"}], 
+     "]"}]}], "\[IndentingNewLine]", "]"}]}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SubTree", "[", "expr_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ReplaceRepeated", "[", 
+     RowBox[{"#", ",", 
+      RowBox[{"\"\<BadNode\>\"", "\[Rule]", 
+       RowBox[{"Sequence", "[", "]"}]}]}], "]"}], "&"}], "@", 
+   RowBox[{"markBadNode", "[", "expr", "]"}]}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s", "=", 
+  RowBox[{"SubTree", "[", "expr", "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"\<\"S\"\>", "\[Rule]", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"\<\"x\"\>", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"Spellings\"\>", "\[Rule]", 
+        RowBox[{"FO", "[", 
+         RowBox[{"\<\"x\"\>", ",", "\<\"Spellings\"\>"}], "]"}]}], ",", 
+       RowBox[{"\<\"v\"\>", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"\<\"Spellings\"\>", "\[Rule]", "\<\"xdfs\"\>"}], "}"}]}]}], 
+      "}"}]}], ",", 
+    RowBox[{"\<\"Spellings\"\>", "\[Rule]", "\<\"a\"\>"}]}], 
+   "}"}]}]], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"mengDataTableCreate", "[", 
+  RowBox[{"{", 
+   RowBox[{"\"\<S\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<dfa\>\"", ",", 
+      RowBox[{"\"\<x\>\"", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<Spellings\>\"", "\[Rule]", 
+          RowBox[{"FO", "[", "\"\<x\>\"", "]"}]}], ",", 
+         RowBox[{"\"\<v\>\"", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<xdfs\>\""}], ",", 
+            "\"\<dsfas\>\""}], "}"}]}]}], "}"}]}], ",", 
+      RowBox[{"\"\<Spellings\>\"", "\[Rule]", "\"\<a\>\""}]}], "}"}]}], "}"}],
+   "\[IndentingNewLine]", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"mengDataTableCreate", "[", 
+  RowBox[{"{", "res", "}"}], "]"}]], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Temp", "Subsection"],
+
+Cell[BoxData[
+ RowBox[{"Position", "[", 
+  RowBox[{"tree", ",", "_Integer"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"dt", "=", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{"\"\<z\>\"", "\[Rule]", " ", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\"\<x\>\"", "\[Rule]", " ", "1"}], ",", "\[IndentingNewLine]", 
+      
+      RowBox[{"\"\<y\>\"", "\[Rule]", " ", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"\"\<LHS\>\"", "\[Rule]", " ", "2"}], ",", 
+         "\[IndentingNewLine]", "3", ",", "\[IndentingNewLine]", 
+         RowBox[{"\"\<lhs\>\"", "\[Rule]", " ", "4"}]}], 
+        "\[IndentingNewLine]", "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<LHS\>\"", "\[Rule]", " ", "5"}]}], "\[IndentingNewLine]", 
+     "}"}]}], "\[IndentingNewLine]", "}"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"dt", "//", "TreeForm"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Position", "[", 
+  RowBox[{"dt", ",", "\"\<LHS\>\""}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"res", "->", 
+  RowBox[{"{", "\[IndentingNewLine]", 
+   RowBox[{"\"\<z\>\"", "\[Rule]", " ", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\"\<y\>\"", "\[Rule]", " ", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"\"\<LHS\>\"", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<x\>\"", ",", "\"\<y\>\""}], "}"}]}], 
+        "\[IndentingNewLine]", "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"\"\<LHS\>\"", "\[Rule]", " ", "5"}]}], "\[IndentingNewLine]", 
+     "}"}]}], "\[IndentingNewLine]", "}"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Position", "[", 
+  RowBox[{"dt", ",", 
+   RowBox[{"\"\<LHS\>\"", "\[Rule]", " ", "_"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Part", "[", 
+  RowBox[{"dt", ",", "1", ",", "2"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"Part", "[", 
+    RowBox[{"dt", ",", "#"}], "]"}], "&"}], "/@", 
+  RowBox[{"Position", "[", 
+   RowBox[{"dt", ",", 
+    RowBox[{"\"\<LHS\>\"", "\[Rule]", " ", "_"}]}], "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Replace", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<lhs\>\"", "\[Rule]", " ", "1"}], ",", "2", ",", "3"}], 
+    "}"}], ",", 
+   RowBox[{"\"\<lhs\>\"", "\[Rule]", " ", 
+    RowBox[{"_", "\[Rule]", " ", "\"\<matched\>\""}]}], ",", "1"}], 
+  "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"Replace", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<lhs\>\"", "\[Rule]", " ", "1"}], ",", "2", ",", "3"}], 
+    "}"}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+     RowBox[{"\"\<lhs\>\"", ",", "_"}], "]"}], "\[Rule]", " ", 
+    "\"\<matched\>\""}], ",", "1"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"myAtomQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{"!", 
+    RowBox[{"FreeQ", "[", 
+     RowBox[{"exp", ",", "\"\<LHS\>\""}], "]"}]}]}], ";"}]], "Input"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"testQ", "[", "exp_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"!", 
+     RowBox[{"myAtomQ", "[", "exp", "]"}]}], "&&", 
+    RowBox[{
+     RowBox[{"Position", "[", 
+      RowBox[{"exp", ",", 
+       RowBox[{
+        RowBox[{"Verbatim", "[", "Rule", "]"}], "[", 
+        RowBox[{"\"\<LHS\>\"", ",", "_"}], "]"}]}], "]"}], "\[Equal]", 
+     RowBox[{"{", "}"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"purge", "[", "exp_", "]"}], ":=", 
+  RowBox[{"DeleteCases", "[", 
+   RowBox[{"exp", ",", 
+    RowBox[{"_", "?", 
+     RowBox[{"(", "testQ", ")"}]}], ",", "Infinity"}], "]"}]}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"testQ", "[", "dt", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"purge", "[", "dt", "]"}]], "Input"]
+}, Open  ]]
+},
+WindowSize->{1024, 720},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>FEPrivate`If[
+  FEPrivate`Equal[FEPrivate`$VersionNumber, 6.], 1.25, 1.25 Inherited],
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 20, \
+2012)",
+StyleDefinitions->"Default.nb"
+]
+
